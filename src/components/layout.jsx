@@ -7,18 +7,24 @@ export default function Layout() {
 
   return (
     <div className="dashboard">
+
       <Sidebar
         sidebarOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
       />
 
-      {sidebarOpen && <div className="backdrop" onClick={() => setSidebarOpen(false)} />}
+      {sidebarOpen && (
+        <div
+          className="backdrop"
+          onClick={() => setSidebarOpen(false)}
+        ></div>
+      )}
 
       <main className="main">
+
         <button
           className="hamburger-btn"
-          onClick={() => setSidebarOpen((prev) => !prev)}
-          aria-label="Toggle sidebar"
+          onClick={() => setSidebarOpen(!sidebarOpen)}
         >
           ☰
         </button>
