@@ -7,6 +7,7 @@
 
 body {
   background: #f3f4f6;
+  overflow-x: hidden;
 }
 
 /* MAIN LAYOUT */
@@ -23,12 +24,14 @@ body {
   background: #0f172a;
   color: white;
   padding: 24px;
+  transition: transform 0.3s ease, width 0.3s ease;
 }
 
 .brand {
   font-size: 30px;
   font-weight: bold;
   margin-bottom: 40px;
+  white-space: nowrap;
 }
 
 .menu {
@@ -44,6 +47,7 @@ body {
   padding: 12px;
   border-radius: 10px;
   transition: 0.3s;
+  white-space: nowrap;
 }
 
 .menu a:hover {
@@ -55,6 +59,27 @@ body {
 .main {
   flex: 1;
   padding: 32px;
+  min-width: 0;
+}
+
+/* HAMBURGER */
+
+.hamburger-btn {
+  display: none;
+  border: none;
+  background: #2563eb;
+  color: white;
+  font-size: 22px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  margin-bottom: 20px;
+}
+
+/* BACKDROP */
+
+.backdrop {
+  display: none;
 }
 
 /* CARDS */
@@ -70,7 +95,7 @@ body {
   background: white;
   border-radius: 16px;
   padding: 24px;
-  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
 }
 
 .stat-card h3 {
@@ -94,11 +119,9 @@ body {
   border: 2px dashed #cbd5e1;
   border-radius: 14px;
   margin-top: 20px;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   color: #64748b;
 }
 
@@ -115,6 +138,7 @@ body {
   padding: 14px;
   border-bottom: 1px solid #e5e7eb;
   text-align: left;
+  vertical-align: top;
 }
 
 /* FORMS */
@@ -127,6 +151,7 @@ body {
 }
 
 .input {
+  width: 100%;
   padding: 14px;
   border-radius: 10px;
   border: 1px solid #d1d5db;
@@ -146,16 +171,37 @@ body {
   color: white;
 }
 
-@media (max-width: 900px) {
+/* RESPONSIVE */
 
-  .layout {
-    flex-direction: column;
+@media (max-width: 900px) {
+  .dashboard {
+    display: block;
+  }
+
+  .hamburger-btn {
+    display: inline-block;
   }
 
   .sidebar {
-    width: 100%;
-    height: auto;
-    padding: 20px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    z-index: 1001;
+    transform: translateX(-100%);
+    box-shadow: 4px 0 18px rgba(0, 0, 0, 0.2);
+  }
+
+  .sidebar.open {
+    transform: translateX(0);
+  }
+
+  .backdrop {
+    display: block;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: 1000;
   }
 
   .main {
@@ -167,17 +213,17 @@ body {
   }
 
   .form-grid {
-    grid-template-columns: 1fr;
+    max-width: 100%;
   }
 
   .data-table {
     display: block;
     overflow-x: auto;
+    white-space: nowrap;
   }
 }
 
 @media (max-width: 600px) {
-
   .card-grid {
     grid-template-columns: 1fr;
   }
@@ -186,15 +232,11 @@ body {
     font-size: 28px !important;
   }
 
-  .sidebar h2 {
+  .brand {
     font-size: 24px;
   }
 
   .btn {
-    width: 100%;
-  }
-
-  .input {
     width: 100%;
   }
 }
