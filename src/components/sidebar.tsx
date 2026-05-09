@@ -1,6 +1,11 @@
 import { Link } from "react-router-dom";
 
-export default function Sidebar({ sidebarOpen, onClose }) {
+type SidebarProps = {
+  sidebarOpen: boolean;
+  onClose: () => void;
+};
+
+export default function Sidebar({ sidebarOpen, onClose }: SidebarProps) {
   return (
     <aside className={`sidebar ${sidebarOpen ? "open" : ""}`}>
       <div className="brand">Admin Panel</div>

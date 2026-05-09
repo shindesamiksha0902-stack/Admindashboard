@@ -1,25 +1,31 @@
 import { useState } from "react";
-
 import { useAppContext } from "../context/AppContext";
+
+type ProductForm = {
+  name: string;
+  price: string;
+  category: string;
+};
 
 export default function Products() {
   const { products, setProducts } = useAppContext();
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<ProductForm>({
     name: "",
     price: "",
     category: "",
   });
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
+
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const name = formData.name.trim();

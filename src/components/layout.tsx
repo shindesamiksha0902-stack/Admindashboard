@@ -9,7 +9,9 @@ export default function Layout() {
     <div className="dashboard">
       <Sidebar sidebarOpen={sidebarOpen} onClose={() => setSidebarOpen(false)} />
 
-      {sidebarOpen && <div className="backdrop" onClick={() => setSidebarOpen(false)} />}
+      {sidebarOpen && (
+        <div className="backdrop" onClick={() => setSidebarOpen(false)} />
+      )}
 
       <main className="main">
         <button

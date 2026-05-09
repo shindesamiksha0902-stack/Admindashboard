@@ -1,12 +1,18 @@
 import { useState } from "react";
 import { useAppContext } from "../context/AppContext";
 
+type SettingsForm = {
+  name: string;
+  email: string;
+  password: string;
+};
 
 export default function Settings() {
   const { settings, setSettings } = useAppContext();
-  const [formData, setFormData] = useState(settings);
 
-  const handleChange = (e) => {
+  const [formData, setFormData] = useState<SettingsForm>(settings);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
     setFormData((prev) => ({
@@ -15,19 +21,15 @@ export default function Settings() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     setSettings(formData);
-
-    alert("Settings Updated Successfully!");
   };
 
   return (
     <div>
-      <h1 style={{ fontSize: "42px", marginBottom: "24px" }}>
-        Settings
-      </h1>
+      <h1 style={{ fontSize: "42px", marginBottom: "24px" }}>Settings</h1>
 
       <div className="panel">
         <h2>Admin Settings</h2>
@@ -66,10 +68,11 @@ export default function Settings() {
         </form>
 
         <div style={{ marginTop: "30px" }}>
-  <h3>
-    Current Admin: <span style={{ color: "#2563eb" }}>{settings.name}</span>
-  </h3>
-</div>
+          <h3>
+            Current Admin:{" "}
+            <span style={{ color: "#2563eb" }}>{settings.name}</span>
+          </h3>
+        </div>
       </div>
     </div>
   );

@@ -1,41 +1,50 @@
 import { useState } from "react";
 import { useAppContext } from "../context/AppContext";
 
-export default function Users() {
+type UserForm = {
+  name: string;
+  email: string;
+  status: string;
+};
 
+export default function Users() {
   const { users, setUsers } = useAppContext();
 
-
-
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<UserForm>({
     name: "",
     email: "",
     status: "Active",
   });
 
-  const [editingId, setEditingId] = useState(null);
+  const [editingId, setEditingId] = useState<number | null>(null);
 
-  const handleChange = (e) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     const { name, value } = e.target;
+
     setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+    const trimmedName = formData.name.trim();
+    const trimmedEmail = formData.email.trim();
+
+    if (!trimmedName || !trimmedEmail) return;
+
     const newUser = {
-      id: editingId || Date.now(),
-      name: formData.name.trim(),
-      email: formData.email.trim(),
+      id: editingId ?? Date.now(),
+      name: trimmedName,
+      email: trimmedEmail,
       status: formData.status,
     };
 
-    if (!newUser.name || !newUser.email) return;
-
-    if (editingId) {
+    if (editingId !== null) {
       setUsers((prev) =>
         prev.map((user) => (user.id === editingId ? newUser : user))
       );
@@ -51,7 +60,7 @@ export default function Users() {
     });
   };
 
-  const handleEdit = (user) => {
+  const handleEdit = (user: { id: number; name: string; email: string; status: string }) => {
     setEditingId(user.id);
     setFormData({
       name: user.name,
@@ -60,7 +69,7 @@ export default function Users() {
     });
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = (id: number) => {
     setUsers((prev) => prev.filter((user) => user.id !== id));
 
     if (editingId === id) {
@@ -121,10 +130,10 @@ export default function Users() {
 
           <div style={{ display: "flex", gap: "12px" }}>
             <button className="btn primary" type="submit">
-              {editingId ? "Update User" : "Add User"}
+              {editingId !== null ? "Update User" : "Add User"}
             </button>
 
-            {editingId && (
+            {editingId !== null && (
               <button className="btn" type="button" onClick={handleCancel}>
                 Cancel
               </button>
@@ -153,11 +162,16 @@ export default function Users() {
                 <td>{user.email}</td>
                 <td>{user.status}</td>
                 <td style={{ display: "flex", gap: "10px" }}>
-                  <button className="btn" onClick={() => handleEdit(user)}>
+                  <button
+                    type="button"
+                    className="btn"
+                    onClick={() => handleEdit(user)}
+                  >
                     Edit
                   </button>
 
                   <button
+                    type="button"
                     className="btn"
                     onClick={() => handleDelete(user.id)}
                     style={{ background: "#ef4444", color: "white" }}
