@@ -8,7 +8,7 @@ import {
   Tooltip,
 } from "recharts";
 
-import { chartData } from "../data/chartData.jsx";
+import { chartData } from "../data/chartData";
 
 export default function Charts() {
   return (
